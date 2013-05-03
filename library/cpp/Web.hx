@@ -55,8 +55,12 @@ class Web {
 	static var hxfcgi_parseMultipart = Web.load("hxfcgi_parse_multipart",3);
 	static var _base_decode = Lib.load("std","base_decode",2);
 
+#if !macro	
 	public static var request:Dynamic = init();
-
+#else
+	public static var request:Dynamic;
+#end
+    
 	public static function init() {
 		haxe.Log.trace = function(v:Dynamic,?info:haxe.PosInfos) {
 			Lib.print(info.fileName+":"+info.lineNumber+": "+Std.string(v)+"\n");
@@ -250,9 +254,7 @@ class Web {
 		Get the current script directory in the local filesystem.
 	**/
 	public static function getCwd():String {
-		var f =  Sys.getEnv('SCRIPT_FILENAME');
-		if(f == null || f.length == 0) return null; 
-		return f.substr(0,f.lastIndexOf('/')+1);
+		return Sys.getEnv('DOCUMENT_ROOT');
 	}
 
 	/**
@@ -330,13 +332,16 @@ class Web {
 	}
 	
 	static function load(name,narg):Dynamic {
+#if !macro
 		try {
 			return Lib.load("hxfcgi",name,narg);
 		}
 		catch (e:Dynamic) {
 			return Lib.load(Sys.getCwd()+"hxfcgi",name,narg);
 		}
+#else
 		return null;
+#end
 	}
 
 	public static var isModNeko = false;
