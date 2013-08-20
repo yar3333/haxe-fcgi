@@ -6,9 +6,6 @@ SRC_DIR=src
 OBJ_DIR=obj
 OBJS=$(OBJ_DIR)/hxfcgi.o $(OBJ_DIR)/request.o $(OBJ_DIR)/basic.o $(OBJ_DIR)/data.o
 
-INCLUDE_NEKO=.
-LIBRARY_NEKO=
-
 ifdef X64
 OUT=../library/ndll/Linux64/hxfcgi.ndll
 else
@@ -17,7 +14,7 @@ endif
 
 CC = g++
 
-CFLAGS=-O2 -s -Wall -shared -I$(INCLUDE_NEKO) -D hxcpp
+CFLAGS=-O2 -s -Wall -shared
 ifdef X64
 CFLAGS+=-D HXCPP_M64 -fPIC -D PIC
 endif
