@@ -1,24 +1,3 @@
-/*	
- *  hxfcgi - CGI/FastCGI Wrapper for nekoVM and the haxe cpp target
- *  Copyright (C) 2011 Philipp "TheHippo" Klose
- *  Copyright (C) 2011 "KaalH!"
- *
- *  This file is part of hxfcgi.
- *
- *  hxfcgi is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Lesser General Public License as 
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *
- *  hxfcgi is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Lesser General Public License for more details.
- *
- *  You should have received a copy of the GNU Lesser General Public 
- *  License along with hxfcgi. If not, see <http://www.gnu.org/licenses/>.
- */
-
 #include <fastcgi.h>
 #include <fcgi_stdio.h>
 #include <stdlib.h>
@@ -34,13 +13,15 @@
 
 using namespace std;
 
-namespace hxfcgi {
-	
-	char* BasicData::getClientIP() {
+namespace hxfcgi
+{
+	char *BasicData::getClientIP()
+	{
 		return getenv("REMOTE_ADDR");
 	}
 	
-	string BasicData::getURI() {
+	string BasicData::getURI()
+	{
 		string uri(getenv("REQUEST_URI"));
 		std::string::size_type pos = uri.find("?");
 		if (pos == string::npos)
@@ -50,7 +31,8 @@ namespace hxfcgi {
 		}
 	}
 	
-	list<string> BasicData::getAllHeaders() {
+	list<string> BasicData::getAllHeaders()
+	{
 		list<string> header;
 		char **evn = environ;
 		for (; *evn != NULL; evn++) {
@@ -64,7 +46,8 @@ namespace hxfcgi {
 		return header;
 	}
 	
-	string BasicData::formatHeader(string h) {
+	string BasicData::formatHeader(string h)
+	{
 		std::string::size_type pos = h.find("_");
 		if(pos != string::npos) 
 			h.replace(pos, 1, "-"); 
@@ -75,7 +58,8 @@ namespace hxfcgi {
 		return h;
 	}
 	
-	string BasicData::getHeader(string key) {
+	string BasicData::getHeader(string key)
+	{
 		std::string::size_type pos = key.find("-");
 		if(pos != string::npos) 
 			key.replace(pos, 1, "_"); 
@@ -94,9 +78,8 @@ namespace hxfcgi {
 		return string("");
 	}
 	
-	char* BasicData::getMethod() {
+	char* BasicData::getMethod()
+	{
 		return getenv("REQUEST_METHOD");
 	}
-	
-	
 }
