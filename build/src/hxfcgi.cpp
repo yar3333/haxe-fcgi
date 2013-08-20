@@ -1,31 +1,14 @@
-/*	
- *  hxfcgi - CGI/FastCGI Wrapper for nekoVM and the haxe cpp target
- *  Copyright (C) 2011 Philipp "TheHippo" Klose
- *  Copyright (C) 2011 "KaalH!"
- *
- *  This file is part of hxfcgi.
- *
- *  hxfcgi is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Lesser General Public License as 
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *
- *  hxfcgi is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Lesser General Public License for more details.
- *
- *  You should have received a copy of the GNU Lesser General Public 
- *  License along with hxfcgi. If not, see <http://www.gnu.org/licenses/>.
- */
-
 #define IMPLEMENT_API
-#include <hx/CFFI.h>
 #include "request.h"
 #include "basic.h"
 #include "data.h"
 
+#include <cstring>
+#include <cstdlib>
 #include <fcgi_stdio.h>
+#include <neko.h>
+
+#include "common.h"
 
 DEFINE_KIND(hxRequest);
 
@@ -41,24 +24,28 @@ while( *cursor != 0 && *cursor != '\r' && *cursor != '\n' && *cursor != '\t' ) \
 cursor++; \
 }
 
-inline hxfcgi::Request* get_request(value hreq) {
+
+hxfcgi::Request *get_request(value hreq)
+{
 	val_check_kind(hreq,hxRequest);
 	return (hxfcgi::Request*)val_data(hreq);
 }
 
-value hxfcgi_create_request() {
+value hxfcgi_create_request()
+{
 	try {
 		hxfcgi::Request *req = new hxfcgi::Request();
 		value ret = alloc_abstract(hxRequest,req);
 		return ret;
 	}
 	catch (string error) {
-		hx_failure(error.c_str());
+		failure(error.c_str());
 	}
 	return val_null;	
 }
 
-value hxfcgi_add_header(value hreq,value type,value value) {
+value hxfcgi_add_header(value hreq,value type,value value)
+{
 	val_check(type,string);
 	val_check(value,string);
 	hxfcgi::Request *req = get_request(hreq);
@@ -66,7 +53,8 @@ value hxfcgi_add_header(value hreq,value type,value value) {
 	return val_null;	
 }
 
-value hxfcgi_print(value hreq,value msg) {
+value hxfcgi_print(value hreq,value msg)
+{
 	val_check(msg,string);
 	hxfcgi::Request *req = get_request(hreq);
 	req->printHeaders();
@@ -75,20 +63,23 @@ value hxfcgi_print(value hreq,value msg) {
 	return val_null;
 }
 
-value hxfcgi_log(value hreq,value msg) {
+value hxfcgi_log(value hreq,value msg)
+{
 	val_check(msg,string);
 	hxfcgi::Request *req = get_request(hreq);
 	req->log(val_string(msg));
 	return val_null;
 }
 
-value hxfcgi_flush(value hreq) {
+value hxfcgi_flush(value hreq)
+{
 	hxfcgi::Request *req = get_request(hreq);
 	req->flush();
 	return val_null;
 }
 
-value hxfcgi_cache_module(value func) {
+value hxfcgi_cache_module(value func)
+{
 	val_check_function(func,1);
 	hxfcgi::Request *req;
 	while (true) {
@@ -99,7 +90,7 @@ value hxfcgi_cache_module(value func) {
 			delete req;
 		}
 		catch (string error) {
-			hx_failure(error.c_str());
+			failure(error.c_str());
 			break;
 		}
 	}
@@ -107,20 +98,23 @@ value hxfcgi_cache_module(value func) {
 	
 }
 
-value hxfcgi_get_client_ip(value hreq) {
+value hxfcgi_get_client_ip(value hreq)
+{
 	val_check_kind(hreq,hxRequest);
 	hxfcgi::BasicData d;
 	return alloc_string(d.getClientIP());
 }
 
 
-value hxfcgi_get_uri(value hreq) {
+value hxfcgi_get_uri(value hreq) 
+{
 	val_check_kind(hreq,hxRequest);	
 	hxfcgi::BasicData d;
 	return alloc_string(d.getURI().c_str());
 }
 
-value hxfcgi_get_all_headers(value hreq) {
+value hxfcgi_get_all_headers(value hreq)
+{
 	val_check_kind(hreq,hxRequest);	
 	hxfcgi::BasicData d;
 	list<string> header = d.getAllHeaders();
@@ -133,7 +127,8 @@ value hxfcgi_get_all_headers(value hreq) {
 	return ret;
 }
 
-value hxfcgi_get_header(value hreq,value hkey) {
+value hxfcgi_get_header(value hreq,value hkey)
+{
 	val_check_kind(hreq,hxRequest);
 	val_check(hkey,string);
 	hxfcgi::BasicData d;
@@ -144,34 +139,39 @@ value hxfcgi_get_header(value hreq,value hkey) {
 		return alloc_string(ret.c_str());
 }
 
-value hxfcgi_get_method(value hreq) {
+value hxfcgi_get_method(value hreq)
+{
 	val_check_kind(hreq,hxRequest);
 	hxfcgi::BasicData d;
 	char *ret = d.getMethod();
 	if (ret == NULL)
-		hx_failure("This seems not to be a HTTP Request");
+		failure("This seems not to be a HTTP Request");
 	return alloc_string(ret);	
 }
 
-value hxfcgi_set_return_code(value hreq,value hcode) {
+value hxfcgi_set_return_code(value hreq,value hcode)
+{
 	val_check(hcode,int);
 	hxfcgi::Request *req = get_request(hreq);
 	req->setReturnCode(val_int(hcode));
 	return val_null;
 }
 
-value hxfcgi_get_post_data(value hreq) {
+value hxfcgi_get_post_data(value hreq)
+{
 	hxfcgi::Request *req = get_request(hreq);
 	return alloc_string(req->getPostData().c_str());	
 }
 
-value hxfcgi_get_params_string(value hreq) {
+value hxfcgi_get_params_string(value hreq)
+{
 	val_check_kind(hreq,hxRequest);
 	hxfcgi::Data d;
 	return alloc_string(d.getParamsString().c_str());
 }
 
-value hxfcgi_get_params(value hreq) {
+value hxfcgi_get_params(value hreq)
+{
 	hxfcgi::Request *req = get_request(hreq);
 	hxfcgi::Data d;
 	map<string,string> params = d.getParams((*req));
@@ -184,7 +184,8 @@ value hxfcgi_get_params(value hreq) {
 	return ret;
 }
 
-value hxfcgi_get_cookies(value hreq) {
+value hxfcgi_get_cookies(value hreq)
+{
 	val_check_kind(hreq,hxRequest);
 	hxfcgi::BasicData d;
 	string ret = d.getHeader("COOKIE");
@@ -210,7 +211,8 @@ value hxfcgi_get_cookies(value hreq) {
 	return p;
 }
 
-value hxfcgi_set_cookie(value hreq, value name, value v) {
+value hxfcgi_set_cookie(value hreq, value name, value v)
+{
 	val_check_kind(hreq,hxRequest);
 	val_check(name,string);
 	val_check(v,string);
@@ -228,7 +230,8 @@ value hxfcgi_set_cookie(value hreq, value name, value v) {
 }
 
 
-static char *memfind( char *mem, int mlen, const char *v ) {
+static char *memfind( char *mem, int mlen, const char *v )
+{
 	char *found;
 	int len = (int)strlen(v);
 	if( len == 0 )
@@ -244,7 +247,8 @@ static char *memfind( char *mem, int mlen, const char *v ) {
 	return NULL;
 }
 
-value hxfcgi_parse_multipart(value hreq, value onpart, value ondata ) {
+value hxfcgi_parse_multipart(value hreq, value onpart, value ondata )
+{
 	val_check_kind(hreq,hxRequest);
 	val_check_function(onpart,2);
 	val_check_function(ondata,3);
@@ -328,11 +332,11 @@ value hxfcgi_parse_multipart(value hreq, value onpart, value ondata ) {
 					pos = len;
 				else
 					pos = len - strlen(buffer_data(boundstr)) + 1;
-				val_call3(ondata,buffer_val(buf),alloc_int(0),alloc_int(pos));
+				val_call3(ondata,buffer_to_string(buf),alloc_int(0),alloc_int(pos));
 			} else {
 				// send remaining data
 				pos = (int)(boundary - buffer_data(buf));
-				val_call3(ondata,buffer_val(buf),alloc_int(0),alloc_int(pos-2));
+				val_call3(ondata,buffer_to_string(buf),alloc_int(0),alloc_int(pos-2));
 				// recall
 				memcpy(buffer_data(buf),buffer_data(buf)+pos,len - pos);
 				len -= pos;
@@ -343,7 +347,8 @@ value hxfcgi_parse_multipart(value hreq, value onpart, value ondata ) {
 	return val_null;
 }
 
-value hxfcgi_parse_multipart_neko(value hreq, value onpart, value ondata ) {
+value hxfcgi_parse_multipart_neko(value hreq, value onpart, value ondata )
+{
 	val_check_kind(hreq,hxRequest);
 	val_check_function(onpart,2);
 	val_check_function(ondata,3);
@@ -452,7 +457,6 @@ value hxfcgi_parse_multipart_neko(value hreq, value onpart, value ondata ) {
 	free(buf);
 	return val_null;
 }
-
 
 DEFINE_PRIM(hxfcgi_get_params,1);
 DEFINE_PRIM(hxfcgi_get_params_string,1);

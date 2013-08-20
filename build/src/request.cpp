@@ -1,33 +1,14 @@
-/*	
- *  hxfcgi - CGI/FastCGI Wrapper for nekoVM and the haxe cpp target
- *  Copyright (C) 2011 Philipp "TheHippo" Klose
- *  Copyright (C) 2011 "KaalH!"
- *
- *  This file is part of hxfcgi.
- *
- *  hxfcgi is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Lesser General Public License as 
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *
- *  hxfcgi is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Lesser General Public License for more details.
- *
- *  You should have received a copy of the GNU Lesser General Public 
- *  License along with hxfcgi. If not, see <http://www.gnu.org/licenses/>.
- */
-
 #include <fastcgi.h>
 #include <fcgi_stdio.h>
 #include <sstream>
 #include "request.h"
 #include "data.h"
+#include "common.h"
 
-namespace hxfcgi {
-
-	Request::Request() {
+namespace hxfcgi
+{
+	Request::Request()
+	{
 		header_sent = false;
 		post_fetched = false;
 		postData = "";
@@ -37,7 +18,8 @@ namespace hxfcgi {
 		}
 	}
 	
-	string Request::getPostData() {
+	string Request::getPostData()
+	{
 		if (!post_fetched) {
 			Data d;
 			postData = d.getPostData();
@@ -46,7 +28,8 @@ namespace hxfcgi {
 		return postData;
 	}
 	
-	void Request::bufferFill(buffer buf,int *len) {
+	void Request::bufferFill(buffer buf,int *len)
+	{
 		Data d;
 		int pos = *len;
 		while( pos < BUFSIZE ) {
@@ -58,7 +41,8 @@ namespace hxfcgi {
 		*len = pos;
 	}
 
-	void Request::bufferFill(char *buf,int *len) {
+	void Request::bufferFill(char *buf,int *len)
+	{
 		Data d;
 		int pos = *len;
 		while( pos < BUFSIZE ) {
@@ -70,11 +54,13 @@ namespace hxfcgi {
 		*len = pos;
 	}
 	
-	bool Request::headerSent() {
+	bool Request::headerSent()
+	{
 		return header_sent;
 	}
 	
-	void Request::printHeaders() {
+	void Request::printHeaders()
+	{
 		if (header_sent==true) return;
 		if(header.count("Content-type") == 0 && header.count("Content-Type") == 0)
 			header["Content-type"]="text/html";
@@ -86,27 +72,33 @@ namespace hxfcgi {
 		header_sent = true;
 	}
 	
-	void Request::addHeader(string type,string value) {
+	void Request::addHeader(string type,string value)
+	{
 		header[type]=value;
 	}	
 
-	void Request::pchar(char c) {
+	void Request::pchar(char c)
+	{
 		FCGI_putchar(c);
  	}
 
-	void Request::log(string msg) {
+	void Request::log(string msg)
+	{
 		FCGI_fprintf(stderr, "%s",msg.c_str());
  	}
 
-	void Request::flush() {
+	void Request::flush()
+	{
 		FCGI_fflush(FCGI_stdout);
  	}
 	
-	void Request::setReturnCode(int code) {
+	void Request::setReturnCode(int code)
+	{
 		header["Status"]=codeToHeader(code);
 	}
 	
-	string Request::codeToHeader(int r) {
+	string Request::codeToHeader(int r)
+	{
 		string code;
 		switch(r) {
 			case 100: code = "100 Continue";
