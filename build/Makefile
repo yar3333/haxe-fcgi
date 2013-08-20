@@ -7,19 +7,19 @@ OBJ_DIR=obj
 OBJS=$(OBJ_DIR)/hxfcgi.o $(OBJ_DIR)/request.o $(OBJ_DIR)/basic.o $(OBJ_DIR)/data.o
 
 ifdef X64
-OUT=../library/ndll/Linux64/hxfcgi.ndll
+	OUT=../library/ndll/Linux64/hxfcgi.ndll
 else
-OUT=../library/ndll/Linux/hxfcgi.ndll
+	OUT=../library/ndll/Linux/hxfcgi.ndll
 endif
 
 CC = g++
 
-CFLAGS=-O2 -s -Wall -shared
+CFLAGS=-shared -O2 -s -Wall
 ifdef X64
-CFLAGS+=-D HXCPP_M64 -fPIC -D PIC
+	CFLAGS+=-D HXCPP_M64 -fPIC
 endif
 
-LDFLAGS = -lneko -lfcgi
+LDFLAGS=-shared -lneko -lfcgi
 
 build: $(OBJS)
 	$(CC) -shared $(OBJS) -o $(OUT) $(LDFLAGS)
