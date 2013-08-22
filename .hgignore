@@ -1,2 +1,4 @@
 syntax: glob
+library/library.zip
+bin
 build/obj
