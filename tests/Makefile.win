@@ -1,0 +1,4 @@
+neko:
+	haxe -cp ../library -cp src -main Test -neko bin/test.n -D HXFCGI
+	haxe -cp ../library -cp src -main Example -neko bin/examle.n -D HXFCGI
+	run.cmd neko test.n

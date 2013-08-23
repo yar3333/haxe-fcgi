@@ -1,24 +1,19 @@
 ifeq ($(shell getconf LONG_BIT),64)
-	X64=1
+	PLATFORM=Linux64
+else
+	PLATFORM=Linux
 endif
 
 SRC_DIR=src
 OBJ_DIR=obj
+
 OBJS=$(OBJ_DIR)/hxfcgi.o $(OBJ_DIR)/request.o $(OBJ_DIR)/basic.o $(OBJ_DIR)/data.o
 
-ifdef X64
-	OUT=../library/ndll/Linux64/hxfcgi.ndll
-else
-	OUT=../library/ndll/Linux/hxfcgi.ndll
-endif
+OUT=../library/ndll/$(PLATFORM)/hxfcgi.ndll
 
 CC = g++
 
-CFLAGS=-shared -O2 -s -Wall
-ifdef X64
-	CFLAGS+=-D HXCPP_M64 -fPIC
-endif
-
+CFLAGS=-shared -O2 -s -Wall -fPIC
 LDFLAGS=-shared -lneko -lfcgi
 
 build: $(OBJS)
@@ -28,7 +23,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 	
 clean:
-	rm -f $(OUT)
 	rm -f $(OBJS)
+	rm -f $(OUT)
 
 all: clean build
