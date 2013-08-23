@@ -78,7 +78,7 @@ class Web {
 		Returns the GET and POST parameters.
 	**/
 	public static function getParams() {
-		var ret = new CHash<String>();
+		var ret = new CHash();
 		var a:Array<String> = Lib.nekoToHaxe(Web.hxfcgi_getParams(Web.request));
 		for (x in 0...(a.length >> 1))
 			if(a[2*x].length > 0) ret.set(a[2*x],(a[2*x+1].length > 0 ) ? StringTools.urlDecode(a[2*x+1]) : null);
@@ -209,7 +209,7 @@ class Web {
 	**/
 	public static function getCookies() {
 		var p:Array<Dynamic> = Lib.nekoToHaxe(Web.hxfcgi_getCookies(Web.request));
-                var h = new CHash<String>();
+                var h = new CHash();
                 while( p != null ) {
                         h.set(p[0],p[1]);
                         p = p[2];
@@ -281,7 +281,7 @@ class Web {
 		Get the multipart parameters as an hashtable. The data
 		cannot exceed the maximum size specified.
 	**/
-	public static function getMultipart( maxSize : Int ) : CHash<String> {
+	public static function getMultipart( maxSize : Int ) : CHash {
 		var h = new CHash();
 		var buf : haxe.io.BytesBuffer = null;
 		var curname = null;
