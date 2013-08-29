@@ -4,7 +4,7 @@ else
         PLATFORM=Linux
 endif
 
-NEKOPATH:=../../library/ndll/$(PLATFORM)
+export NEKOPATH:=../../library/ndll/$(PLATFORM):/usr/lib/neko:.
 
 neko_test:
 	haxe -cp ../library -cp src -main Test -D HXFCGI -neko bin/test.n
