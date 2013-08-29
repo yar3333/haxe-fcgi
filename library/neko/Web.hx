@@ -221,13 +221,12 @@ class Web {
 	**/
 	public static function setCookie( key : String, value : String, ?expire: Date, ?domain: String, ?path: String, ?secure: Bool ) {
 		var buf = new StringBuf();
-                buf.add(Lib.haxeToNeko(value));
-                if( expire != null ) addPair(buf, "expires=", DateTools.format(expire, "%a, %d-%b-%Y %H:%M:%S GMT"));
-                addPair(buf, "domain=", Lib.haxeToNeko(domain));
-                addPair(buf, "path=", Lib.haxeToNeko(path));
-                if( secure ) addPair(buf, "secure", "");
-                var v = buf.toString();
-		Web.hxfcgi_setCookie(Web.request,Lib.haxeToNeko(key),v);
+		buf.add(value);
+		if( expire != null ) addPair(buf, "expires=", DateTools.format(expire, "%a, %d-%b-%Y %H:%M:%S GMT"));
+		addPair(buf, "domain=", domain);
+		addPair(buf, "path=", path);
+		if (secure) addPair(buf, "secure", "");
+		Web.hxfcgi_setCookie(Web.request, Lib.haxeToNeko(key), Lib.haxeToNeko(buf.toString()));
 	}
 
 	static function addPair( buf : StringBuf, name, value ) {
