@@ -2,14 +2,15 @@
 <configurationDescriptor version="89">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df root="src" name="src">
-      <in>abstract.cpp</in>
-      <in>abstract.hpp</in>
-      <in>ann_mlp.cpp</in>
-      <in>core.cpp</in>
-      <in>highgui.cpp</in>
-      <in>imgproc.cpp</in>
-      <in>mat.cpp</in>
-      <in>test.cpp</in>
+      <in>basic.cpp</in>
+      <in>basic.h</in>
+      <in>common.cpp</in>
+      <in>common.h</in>
+      <in>data.cpp</in>
+      <in>data.h</in>
+      <in>hxfcgi.cpp</in>
+      <in>request.cpp</in>
+      <in>request.h</in>
     </df>
   </logicalFolder>
   <projectmakefile></projectmakefile>
