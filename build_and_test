@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cd build
+make
+cd ..
+cp library/ndll/Linux64/hxfcgi.ndll tests/bin
+cd tests
+make
