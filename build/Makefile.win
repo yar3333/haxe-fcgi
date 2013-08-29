@@ -1,7 +1,7 @@
 SRC_DIR=src
 OBJ_DIR=obj
 
-OBJS=$(OBJ_DIR)/hxfcgi.o $(OBJ_DIR)/request.o $(OBJ_DIR)/basic.o $(OBJ_DIR)/data.o
+OBJS=$(OBJ_DIR)/hxfcgi.o $(OBJ_DIR)/request.o $(OBJ_DIR)/basic.o $(OBJ_DIR)/data.o $(OBJ_DIR)/common.o
 
 INCLUDE_NEKO=D:/MyProg/_tools/motion-twin/neko/include
 LIBRARY_NEKO=D:/MyProg/_tools/motion-twin/neko

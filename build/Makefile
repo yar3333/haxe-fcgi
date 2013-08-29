@@ -7,7 +7,7 @@ endif
 SRC_DIR=src
 OBJ_DIR=obj
 
-OBJS=$(OBJ_DIR)/hxfcgi.o $(OBJ_DIR)/request.o $(OBJ_DIR)/basic.o $(OBJ_DIR)/data.o
+OBJS=$(OBJ_DIR)/hxfcgi.o $(OBJ_DIR)/request.o $(OBJ_DIR)/basic.o $(OBJ_DIR)/data.o $(OBJ_DIR)/common.o
 
 OUT=../library/ndll/$(PLATFORM)/hxfcgi.ndll
 

@@ -1,3 +1,4 @@
+#include <cstring>
 #include "common.h"
 
 void val_array_set_i(value arg1, int arg2, value inVal)
