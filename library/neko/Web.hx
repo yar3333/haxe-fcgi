@@ -338,10 +338,10 @@ class Web {
 	static function load(name,narg):Dynamic {
 #if !macro	
 		try {
-			return Lib.load("hxfcgi",name,narg);
+			return Lib.load("fcgi",name,narg);
 		}
 		catch (e:Dynamic) {
-			return Lib.load(Sys.getCwd()+"hxfcgi",name,narg);
+			return Lib.load(Sys.getCwd()+"fcgi",name,narg);
 		}
 #else
 		return null;

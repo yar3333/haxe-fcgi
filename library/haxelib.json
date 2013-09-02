@@ -1,11 +1,11 @@
 {
-  "name": "hxfcgi",
+  "name": "fcgi",
   "license": "LGPL",
-  "tags": ["neko","cpp","web","cgi","fcgi","fastcgi"],
-  "description": "CGI/FastCGI wrapper for neko/cpp.",
+  "tags": ["neko","web","cgi","fcgi","fastcgi"],
+  "description": "CGI/FCGI wrapper for neko. Base on the hxfcgi project (https://github.com/TheHippo/hxfcgi).",
   "contributors": ["TheHippo"],
-  "releasenote": "haxe 3 support.",
+  "releasenote": "Haxe 3 support.",
   "version": "1.0.0",
-  "url": "https://github.com/TheHippo/hxfcgi",
+  "url": "",
   "dependencies": {}
 }
