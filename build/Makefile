@@ -1,7 +1,7 @@
 include Makefile.platform
 include Makefile.ndll
 
-PROJECT=hxfcgi
+PROJECT=fcgi
 
 ifeq ($(PLATFORM),Windows)
 	FCGIPATH=ext
