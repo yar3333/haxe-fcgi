@@ -3,9 +3,9 @@
   "license": "LGPL",
   "tags": ["neko","web","cgi","fcgi","fastcgi"],
   "description": "CGI/FCGI wrapper for neko. Based on the hxfcgi project (https://github.com/TheHippo/hxfcgi).",
-  "contributors": ["TheHippo"],
+  "contributors": ["yar3333"],
   "releasenote": "Haxe 3 support.",
   "version": "1.0.0",
-  "url": "",
+  "url": "https://code.google.com/p/haxe-fcgi/",
   "dependencies": {}
 }
