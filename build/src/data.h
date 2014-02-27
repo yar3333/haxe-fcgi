@@ -22,7 +22,7 @@ namespace hxfcgi
 		public:
 			string getPostData();
 			string getParamsString();
-			map<string,string> getParams(Request req);
+			map<string,string> getParams(Request *req);
 			int getStdinData(char* buf, int len);
 	};	
 }

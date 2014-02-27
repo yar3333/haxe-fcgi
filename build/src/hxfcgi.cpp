@@ -174,7 +174,7 @@ value hxfcgi_get_params(value hreq)
 {
 	hxfcgi::Request *req = get_request(hreq);
 	hxfcgi::Data d;
-	map<string,string> params = d.getParams((*req));
+	map<string,string> params = d.getParams(req);
 	value ret = alloc_array(params.size()*2);
 	unsigned int c = 0;
 	for (map<string,string>::iterator iter = params.begin(); iter!=params.end(); iter++, c++) {

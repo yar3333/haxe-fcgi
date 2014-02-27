@@ -55,10 +55,10 @@ namespace hxfcgi
 		}
 	}
 	
-	map<string,string> Data::getParams(Request req)
+	map<string,string> Data::getParams(Request *req)
 	{
 		map<string,string> params;
-		string base = getCompleteQueryString(req.getPostData(),getParamsString());
+		string base = getCompleteQueryString(req->getPostData(),getParamsString());
 		string part,key,value;
 		std::string::size_type ppos = base.find("&");
 		while (ppos != string::npos) {
