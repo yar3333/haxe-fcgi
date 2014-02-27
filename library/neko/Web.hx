@@ -65,7 +65,7 @@ class Web {
 	public static var request:Dynamic;
 #end
 	
-	public static function init() {
+	static function init() {
 		haxe.Log.trace = function(v:Dynamic,?info:haxe.PosInfos) {
 			Lib.print(info.fileName+":"+info.lineNumber+": "+Std.string(v)+"\n");
 		}
