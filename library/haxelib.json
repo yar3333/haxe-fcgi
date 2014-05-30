@@ -6,6 +6,6 @@
   "contributors": ["yar3333"],
   "releasenote": "Haxe 3 support.",
   "version": "1.0.0",
-  "url": "https://code.google.com/p/haxe-fcgi/",
+  "url": "https://bitbucket.org/yar3333/haxe-fcgi",
   "dependencies": {}
 }
