@@ -5,6 +5,12 @@
 #include "data.h"
 #include "common.h"
 
+#if _WINDOWS
+#	define NL "\n"
+#else
+#	define NL "\r\n"
+#endif
+
 namespace hxfcgi
 {
 	Request::Request()
@@ -62,13 +68,14 @@ namespace hxfcgi
 	void Request::printHeaders()
 	{
 		if (header_sent==true) return;
+		
 		if(header.count("Content-type") == 0 && header.count("Content-Type") == 0)
-			header["Content-type"]="text/html";
+			header["Content-type"] = "text/html";
 		map<string,string>::iterator iter;
 		for (iter = header.begin(); iter != header.end(); iter++) {
-			FCGI_printf("%s: %s\r\n",iter->first.c_str(),iter->second.c_str());
+			FCGI_printf("%s: %s" NL,iter->first.c_str(),iter->second.c_str());
 		}
-		FCGI_printf("\r\n");
+		FCGI_printf(NL);
 		header_sent = true;
 	}
 	
