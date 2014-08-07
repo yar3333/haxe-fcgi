@@ -36,8 +36,8 @@ namespace hxfcgi
 	
 	string Data::getParamsString()
 	{
-		string ret(getenv("QUERY_STRING"));
-		return ret;
+		const char *s = getenv("QUERY_STRING");
+		return s != NULL ? string(s) : string("");
 	}
 	
 	int Data::getPostLength()
