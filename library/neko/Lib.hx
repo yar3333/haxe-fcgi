@@ -42,22 +42,14 @@ class Lib {
 		Print the specified value on the default output.
 	**/
 	public static function print( v : Dynamic ) : Void {
-		#if HXFCGI
 		Web.hxfcgi_print(Web.request,Lib.haxeToNeko(Std.string(v)));
-		#else
-		untyped __dollar__print(v);
-		#end
 	}
 
 	/**
 		Print the specified value on the default output followed by a newline character.
 	**/
 	public static function println( v : Dynamic ) : Void {
-		#if HXFCGI
 		Web.hxfcgi_print(Web.request,Lib.haxeToNeko(Std.string(v)+"\n"));
-		#else
-		untyped __dollar__print(v,"\n");
-		#end
 	}
 
 	/**
