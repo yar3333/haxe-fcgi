@@ -1,26 +1,23 @@
 /*
- * Copyright (c) 2005, The haXe Project Contributors
- * All rights reserved.
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Copyright (C)2005-2012 Haxe Foundation
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
  *
- * THIS SOFTWARE IS PROVIDED BY THE HAXE PROJECT CONTRIBUTORS "AS IS" AND ANY
- * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE HAXE PROJECT CONTRIBUTORS BE LIABLE FOR
- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
- * DAMAGE.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
  */
 package cpp;
 
@@ -32,14 +29,7 @@ package cpp;
 using Lambda;
 using StringTools;
 
-#if haxe3
-typedef CHash = Map<String, String>;
-#else
-typedef CHash = Hash<String>;
-#end
-
 class Web {
-
 	
 	static var hxfcgi_createRequest = Web.load("hxfcgi_create_request",0);
 	static var hxfcgi_addHeader = Web.load("hxfcgi_add_header",3);
@@ -77,7 +67,7 @@ class Web {
 		Returns the GET and POST parameters.
 	**/
 	public static function getParams() {
-		var ret = new CHash();
+		var ret = new Map<String, String>();
 		var a:Array<String> = Web.hxfcgi_getParams(Web.request);
 		for (x in 0...(a.length >> 1))
 			if(a[2*x].length > 0) ret.set(a[2*x],(a[2*x+1].length > 0 ) ? StringTools.urlDecode(a[2*x+1]) : null);
@@ -208,7 +198,7 @@ class Web {
 	**/
 	public static function getCookies() {
 		var p:Array<Dynamic> = Web.hxfcgi_getCookies(Web.request);
-                var h = new CHash();
+                var h = new Map<String, String>();
                 while( p != null ) {
                         h.set(p[0],p[1]);
                         p = p[2];
@@ -268,7 +258,6 @@ class Web {
 		Setting it back to null will disable code caching.
 	**/
 	public static function cacheModule( f : Void -> Void ) {
-		f();
 		var r = function(request:Dynamic) {
 			Web.request = request;
 			f();
@@ -280,8 +269,8 @@ class Web {
 		Get the multipart parameters as an hashtable. The data
 		cannot exceed the maximum size specified.
 	**/
-	public static function getMultipart( maxSize : Int ) : CHash {
-		var h = new CHash();
+	public static function getMultipart( maxSize : Int ) : Map<String, String> {
+		var h = new Map<String, String>();
 		var buf : haxe.io.BytesBuffer = null;
 		var curname = null;
 		parseMultipart(function(p,_) {

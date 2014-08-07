@@ -259,14 +259,11 @@ class Web {
 		Setting it back to null will disable code caching.
 	**/
 	public static function cacheModule( f : Void -> Void ) {
-		#if HXFCGI
-		f();
 		var r = function(request:Dynamic) {
 			Web.request = request;
 			f();
 		};
 		Web.hxfcgi_cacheModule(r);
-		#end
 	}
 
 	/**
