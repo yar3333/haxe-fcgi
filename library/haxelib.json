@@ -4,8 +4,8 @@
   "tags": ["neko","web","cgi","fcgi","fastcgi"],
   "description": "CGI/FCGI wrapper for neko. Based on the hxfcgi project (https://github.com/TheHippo/hxfcgi).",
   "contributors": ["yar3333"],
-  "releasenote": "Ignore env.CONTENT_TYPE on Web.getPostData().\nDouble getPostData() call error fix.\nMove sources from google to bitbucket.\nAvoid crash if REQUEST_URI is not sended.\nWindows CR/LF fix.\nHXFCGI define is not need anymore.\nRecompile linux32 & linux64 & Windows.",
-  "version": "1.1.0",
+  "releasenote": "Sys.print() fix.",
+  "version": "1.1.1",
   "url": "https://bitbucket.org/yar3333/haxe-fcgi",
   "dependencies": {}
 }
