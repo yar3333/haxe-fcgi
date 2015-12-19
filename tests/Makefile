@@ -1,5 +1,5 @@
-include Makefile.platform
-include Makefile.test
+include Makefile-platform
+include Makefile-test
 
 export NEKOPATH:=../../library/ndll/$(PLATFORM):/usr/lib/neko:.
 export CONTENT_TYPE:=urlencoded/formdata
