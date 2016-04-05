@@ -4,3 +4,4 @@ bin
 build/obj
 library/ndll/Windows/*.exp
 library/ndll/Windows/*.lib
+build/nbproject/private/
